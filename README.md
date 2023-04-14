@@ -30,7 +30,7 @@ Below is a sample sendsms JSON data:
 ### SMS Responses Body:
 SMS Response(s):
 ```json
-1. Success
+1.Success
     [
         {
             "status_code": "1000",
@@ -43,7 +43,7 @@ SMS Response(s):
         }
     ]
 
-2. Failed
+2.Failed
     [
         {
             "status_code": "1003",
