@@ -9,9 +9,9 @@ import (
 )
 
 const (
-	TILIL_SINGLE_SMS_ENDPOINT = "https://api.tililtech.com/sms/v3/sendsms"
-	TILIL_API_KEY             = "EQxcdrnes0T6ytoXm4i5IvMKwL1S9VbaqjBFpgzJhDuRUlWAZY3N28GP7CHOkf"
-	SENDER_ID                 = "2513"
+	TILIL_SMS_ENDPOINT = "https://api.tililtech.com/sms/v3/sendsms"
+	TILIL_API_KEY      = "EQxcdrnes0T6ytoXm4i5IvMKwL1S9VbaqjBFpgzJhDuRUlWAZY3N28GP7CHOkf"
+	SENDER_ID          = "2513"
 )
 
 type SMSRequestBody struct {
@@ -36,7 +36,7 @@ func SendSingleSMS(text, phoneNumber string) {
 		panic(err)
 	}
 
-	responce, err := http.Post(TILIL_SINGLE_SMS_ENDPOINT, "aplication/json", bytes.NewBuffer(smsBody))
+	responce, err := http.Post(TILIL_SMS_ENDPOINT, "aplication/json", bytes.NewBuffer(smsBody))
 	if err != nil {
 		panic(err)
 	}
@@ -72,7 +72,7 @@ func SendBulkSMS(text string, phoneNumbers []string) {
 		panic(err)
 	}
 
-	responce, err := http.Post(TILIL_SINGLE_SMS_ENDPOINT, "aplication/json", bytes.NewBuffer(smsBody))
+	responce, err := http.Post(TILIL_SMS_ENDPOINT, "aplication/json", bytes.NewBuffer(smsBody))
 	if err != nil {
 		panic(err)
 	}
