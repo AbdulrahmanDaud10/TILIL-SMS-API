@@ -6,7 +6,7 @@ A quick step by step guide on how to send bulk and premium messages using an app
 Required endpoints:
 const (
 	    TILIL_SMS_ENDPOINT        = "https://api.tililtech.com/sms/v3/sendsms"
-	    TILIL_API_KEY             = "EQxcdrnes0T6ytoXm4i5IvMKwL1S9VbaqjBFpgzJhDuRUlWAZY3N28GP7CHOkf"
+	    TILIL_API_KEY             = " "
 	    SENDER_ID                 = "2513"
       )
 ```
