@@ -4,14 +4,15 @@ import (
 	"bytes"
 	"encoding/json"
 	"fmt"
-	"io/ioutil"
+	"io"
 	"net/http"
+	"os"
 )
 
-const (
-	TILIL_SMS_ENDPOINT = "https://api.tililtech.com/sms/v3/sendsms"
-	TILIL_API_KEY      = "EQxcdrnes0T6ytoXm4i5IvMKwL1S9VbaqjBFpgzJhDuRUlWAZY3N28GP7CHOkf"
-	SENDER_ID          = "2513"
+var (
+	Endpoint = os.Getenv("TILIL_SMS_ENDPOINT")
+	ApiKey   = os.Getenv("TILIL_API_KEY")
+	senderID = os.Getenv("SENDER_ID")
 )
 
 type SMSRequestBody struct {
@@ -22,10 +23,10 @@ type SMSRequestBody struct {
 	ServiceID int    `json:"service_id"`
 }
 
-func SendSingleSMS(text, phoneNumber string) {
+func SendSingleSMS(text, phoneNumber string) error {
 	body := SMSRequestBody{
-		API_Key:   TILIL_API_KEY,
-		ShortCode: SENDER_ID,
+		API_Key:   ApiKey,
+		ShortCode: senderID,
 		Message:   "How are you?",
 		Mobile:    "+254795927076",
 		ServiceID: 0,
@@ -36,22 +37,23 @@ func SendSingleSMS(text, phoneNumber string) {
 		panic(err)
 	}
 
-	responce, err := http.Post(TILIL_SMS_ENDPOINT, "aplication/json", bytes.NewBuffer(smsBody))
+	responce, err := http.Post(Endpoint, "aplication/json", bytes.NewBuffer(smsBody))
 	if err != nil {
 		panic(err)
 	}
 
 	defer responce.Body.Close()
 
-	responceBody, err := ioutil.ReadAll(responce.Body)
+	responceBody, err := io.ReadAll(responce.Body)
 	if err != nil {
 		panic(err)
 	}
 
 	fmt.Println(string(responceBody))
+	return nil
 }
 
-func SendBulkSMS(text string, phoneNumbers []string) {
+func SendBulkSMS(text string, phoneNumbers []string) error{
 	bulkMessages := []map[string]string{}
 	for _, phoneNumber := range phoneNumbers {
 		bulkMessages = append(bulkMessages, map[string]string{
@@ -61,9 +63,9 @@ func SendBulkSMS(text string, phoneNumbers []string) {
 	}
 
 	SMSRequestBody := map[string]interface{}{
-		"api_key":   TILIL_API_KEY,
+		"api_key":   ApiKey,
 		"serviceId": 0,
-		"shortcode": SENDER_ID,
+		"shortcode": senderID,
 		"messages":  bulkMessages,
 	}
 
@@ -72,17 +74,18 @@ func SendBulkSMS(text string, phoneNumbers []string) {
 		panic(err)
 	}
 
-	responce, err := http.Post(TILIL_SMS_ENDPOINT, "aplication/json", bytes.NewBuffer(smsBody))
+	responce, err := http.Post(Endpoint, "aplication/json", bytes.NewBuffer(smsBody))
 	if err != nil {
 		panic(err)
 	}
 
 	defer responce.Body.Close()
 
-	responceBody, err := ioutil.ReadAll(responce.Body)
+	responceBody, err := io.ReadAll(responce.Body)
 	if err != nil {
 		panic(err)
 	}
 
 	fmt.Println(string(responceBody))
+	return nil
 }
